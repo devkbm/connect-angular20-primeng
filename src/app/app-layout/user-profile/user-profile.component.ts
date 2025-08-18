@@ -34,7 +34,9 @@ import { ResponseList } from 'src/app/core/model/response-list';
 
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-user-profile',
@@ -42,45 +44,41 @@ import { ButtonModule } from 'primeng/button';
     CommonModule,
     CardModule,
     ButtonModule,
-    NgOptimizedImage
-],
+    ConfirmPopupModule,
+    ToastModule,
+  ],
   providers: [
+    ConfirmationService, MessageService
   //  provideIcons({ lucideSettings, lucidePenLine, lucideLogOut })
   ],
   template: `
     <p-card>
       <ng-template #header>
         <img [src]="profilePictureSrc" style="width: 100px"/>
-         asfsf
       </ng-template>
+
+      <ng-template #title>
+        {{profile?.staffName + '(' + profile?.userId + ')'}} <br/>
+        {{profile?.session?.lastAccessedTime | date:"yyyy/MM/dd HH:mm:ss"}}
+      </ng-template>
+
+       <ng-template #subtitle> sub
+        {{profile?.deptName}}
+      </ng-template>
+
+      contents
 
       <ng-template #footer>
         <div class="flex gap-4 mt-1">
-            <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full" />
-            <p-button label="Save" class="w-full" styleClass="w-full" />
+          <p-button icon="pi pi-cog" severity="secondary"/>
+          <p-button icon="pi pi-file-edit"/>
+          <p-button icon="pi pi-sign-out" (onClick)="logoutConfirm($event)"/>
+
+          <p-toast />
+          <p-confirmpopup />
         </div>
     </ng-template>
     </p-card>
-    <!--
-    <section hlmCard>
-      <div hlmCardHeader>
-        <h3 hlmCardTitle>Card Title</h3>
-        <p hlmCardDescription>Card Description</p>
-            <div hlmCardAction></div>
-      </div>
-      <p hlmCardContent>Card Content</p>
-
-       <brn-separator hlmSeparator class="my-4" />
-
-      <div hlmCardFooter class="flex h-5 items-center space-x-4 text-sm" >
-          <ng-icon hlm name="lucideSettings"/>
-          <brn-separator decorative hlmSeparator orientation="vertical" />
-          <ng-icon hlm name="lucidePenLine" (click)="test2()"/>
-          <brn-separator decorative hlmSeparator orientation="vertical" />
-          <ng-icon hlm name="lucideLogOut" (click)="logout()"/>
-      </div>
-    </section>
-    -->
 
     <!--
     <div class="card">
@@ -152,6 +150,9 @@ export class UserProfileComponent {
   private http = inject(HttpClient);
   //private modal = inject(NzModalService);
 
+  private confirmationService = inject(ConfirmationService);
+  private messageService = inject(MessageService);
+
   constructor() {
     this.profilePictureSrc = this.sessionService.getAvartarImageString();
     this.getMyInfo();
@@ -167,7 +168,28 @@ export class UserProfileComponent {
         );
   }
 
-  logoutConfirm() {
+  logoutConfirm(event: Event) {
+    this.confirmationService.confirm({
+            target: event.currentTarget as EventTarget,
+            message: '로그 아웃하시겠습니까?',
+            icon: 'pi pi-info-circle',
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true
+            },
+            acceptButtonProps: {
+                label: 'Delete',
+                severity: 'danger'
+            },
+            accept: () => {
+              //this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted', life: 3000 });
+              this.logout();
+            },
+            reject: () => {
+              //this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+            }
+        });
     /*
      this.modal.confirm({
       nzTitle: '로그 아웃하시겠습니까?',
