@@ -12,5 +12,6 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent },
 
   {path: 'home', component: AppLayoutComponent},
+  {path: 'profile', loadChildren: () => import('src/app/app-layout/app-layout.module').then(m => m.routes)},
 
 ];

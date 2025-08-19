@@ -71,7 +71,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
       <ng-template #footer>
         <div class="flex gap-4 mt-1">
           <p-button icon="pi pi-cog" severity="secondary"/>
-          <p-button icon="pi pi-file-edit"/>
+          <p-button icon="pi pi-file-edit" (onClick)="test2()"/>
           <p-button icon="pi pi-sign-out" (onClick)="logoutConfirm($event)"/>
 
           <p-toast />

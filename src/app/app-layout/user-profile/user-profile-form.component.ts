@@ -17,7 +17,9 @@ import { getHttpOptions } from 'src/app/core/http/http-utils';
 import { ResponseList } from 'src/app/core/model/response-list';
 import { SessionManager } from 'src/app/core/session-manager';
 
-
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-user-profile-form',
@@ -25,13 +27,19 @@ import { SessionManager } from 'src/app/core/session-manager';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    FloatLabelModule,
+    InputTextModule,
+    MessageModule
     /*
     HlmFormFieldModule,
     HlmInput
     */
 ],
   template: `
-    <form [formGroup]="fg" class="space-y-6">
+
+
+  <div class="card flex justify-center">
+    <form [formGroup]="fg" class="flex flex-col gap-6 w-full sm:w-56">
       <!-- 폼 오류 메시지 템플릿 -->
       <ng-template #errorTpl let-control>
         @if (control.hasError('required')) {
@@ -42,37 +50,31 @@ import { SessionManager } from 'src/app/core/session-manager';
         }
       </ng-template>
 
-      {{this.fg.value |json}}
+      <div class="flex flex-col gap-1">
+        {{this.fg.value |json}}
+      </div>
 
-      <!--
-      <hlm-form-field>
-        사용자ID
-        <input class="w-50" hlmInput id="userId" formControlName="userId" required />
-        <hlm-hint>사용자 아이디를 확인해주세요.</hlm-hint>
-        <hlm-error>필수 입력 값입니다.</hlm-error>
-      </hlm-form-field>
+      <div class="flex flex-col gap-1">
+        <p-floatlabel>
+          <input id="userId" pInputText formControlName="userId" required />
+          <label for="userId">사용자ID</label>
+        </p-floatlabel>
 
-      <hlm-form-field>
-        기존 비밀번호
-        <input class="w-50" hlmInput id="beforePassword" formControlName="beforePassword" required />
-        <hlm-hint>기존 비밀번호를 입력해주세요.</hlm-hint>
-        <hlm-error>필수 입력 값입니다.</hlm-error>
-      </hlm-form-field>
+        @if (fg.controls.userId.dirty && fg.controls.userId.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">Username is required.</p-message>
+        }
+      </div>
 
-      <hlm-form-field>
-        변경 비밀번호
-        <input class="w-50" hlmInput id="afterPassword" formControlName="afterPassword" required />
-        <hlm-hint>변경 비밀번호를 입력해주세요.</hlm-hint>
-        <hlm-error>필수 입력 값입니다.</hlm-error>
-      </hlm-form-field>
+      <div class="flex flex-col gap-1">
+        <p-floatlabel>
+          <input id="beforePassword" pInputText formControlName="beforePassword" required />
+          <label for="beforePassword">기존 비밀번호</label>
+        </p-floatlabel>
 
-      <hlm-form-field>
-        변경 비밀번호 확인
-        <input class="w-50" hlmInput id="afterPasswordConfirm" formControlName="afterPasswordConfirm" required />
-        <hlm-hint>변경 비밀번호를 한번 더 입력해주세요.</hlm-hint>
-        <hlm-error>필수 입력 값입니다. </hlm-error>
-      </hlm-form-field>
-      -->
+        @if (fg.controls.beforePassword.dirty && fg.controls.beforePassword.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">기존 비밀번호는 필수 입력입니다.</p-message>
+        }
+      </div>
 
       <!--
       <nz-form-item-custom for="userId" label="사용자ID" required="true">
@@ -111,6 +113,8 @@ import { SessionManager } from 'src/app/core/session-manager';
       <span nz-icon nzType="save" nzTheme="outline"></span>변경
     </button>
       -->
+    </form>
+  </div>
   `
 })
 export class UserProfileFormComponent {
