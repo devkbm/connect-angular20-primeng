@@ -13,5 +13,6 @@ export const routes: Routes = [
 
   {path: 'home', component: AppLayoutComponent},
   {path: 'profile', loadChildren: () => import('src/app/app-layout/app-layout.module').then(m => m.routes)},
+  {path: 'system', loadChildren: () => import('src/app/system/system-management-routing.module').then(m => m.routes), data: {breadcrumb: 'system'}},
 
 ];
