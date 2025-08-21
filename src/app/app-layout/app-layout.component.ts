@@ -70,10 +70,13 @@ import { CardModule } from 'primeng/card';
 
       <button (click)="test()">test</button>
 
-      <p-avatar [image]="profileAvatarSrc" class="mr-2" size="large" (click)="op.toggle($event)" />
-      <p-popover #op>
-        <app-user-profile></app-user-profile>
-      </p-popover>
+      <div class="absolute inset-y-0 right-0">
+        <p-avatar [image]="profileAvatarSrc" class="mr-2" size="large" (click)="op.toggle($event)" />
+        <p-popover #op>
+          <app-user-profile></app-user-profile>
+        </p-popover>  
+      </div>
+      
 
       <!--
       <brn-popover class="avatar">
