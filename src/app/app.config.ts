@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withXsrfConfiguration({cookieName: 'XSRF-TOKEN', headerName: 'X-XSRF-TOKEN'}), withInterceptorsFromDi()),
     provideAnimationsAsync(),
     { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+    //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
     { provide: COMPOSITION_BUFFER_MODE, useValue: false},
     providePrimeNG({
         theme: {

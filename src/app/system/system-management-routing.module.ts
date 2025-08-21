@@ -8,8 +8,8 @@ export const routes: Routes = [
   {
     path: '', component: AppLayoutComponent, //canActivateChild: [AuthGuardService],
     children: [
-      {path: 'company',       loadComponent: () => import('./company/company-form').then(m => m.CompanyFormComponent)},
-      //{path: 'company',       loadComponent: () => import('./company/company-grid').then(m => m.CompanyGridComponent)},
+      //{path: 'company',       loadComponent: () => import('./company/company-form').then(m => m.CompanyFormComponent)},
+      {path: 'company',       loadComponent: () => import('./company/company-grid').then(m => m.CompanyGridComponent)},
       /*
       {path: 'company',       loadComponent: () => import('./company/company-app').then(m => m.CompanyApp)},
       {path: 'user',          loadComponent: () => import('./user/user-app').then(m => m.UserApp), data: {breadcrumb: 'user'}},
